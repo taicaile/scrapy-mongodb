@@ -13,8 +13,6 @@ SPIDER_MODULES = ["example.spiders"]
 NEWSPIDER_MODULE = "example.spiders"
 
 SCHEDULER = "scrapy_mongodb.scheduler.Scheduler"
-MONGODB_SERVER = "localhost"
-MONGODB_PORT = 27017
 
 SCHEDULER_PERSIST = True
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
