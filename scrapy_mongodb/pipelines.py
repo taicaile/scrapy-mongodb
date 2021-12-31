@@ -41,11 +41,10 @@ class MongoDBPipeline:
         """process item"""
         # pylint:disable=protected-access
         key = self.item_key(item, spider)
-        data = {"_values": item._values, "_item": item.__class__.__name__}
+        data = item._values
         self.server[self.db_name][key].insert_one(data)
         return item
 
     def item_key(self, item, spider):
         """Returns mongodb key based on given spider."""
-        del item
-        return self.key % {"spider": spider.name}
+        return self.key % {"spider": spider.name, "item": item.__class__.__name__}

@@ -18,7 +18,7 @@ SCHEDULER_DUPEFILTER_KEY = "%(spider)s:dupefilter"
 SCHEDULER_DUPEFILTER_CLASS = "scrapy_mongodb.dupefilter.RFPDupeFilter"
 
 # Items Pipeline
-PIPELINE_KEY = "%(spider)s:items"
+PIPELINE_KEY = "%(spider)s:items:%(item)s"
 
 # Start urls
 START_URLS_KEY = "%(name)s:start_urls"
