@@ -7,7 +7,7 @@ MONGODB_PORT = 27017
 MONGODB_DB = "scrapy"
 
 # For standalone use.
-DUPEFILTER_KEY = 'dupefilter:%(timestamp)s'
+DUPEFILTER_KEY = "dupefilter:%(timestamp)s"
 
 # Scheduler
 SCHEDULER_PERSIST = False
@@ -15,13 +15,13 @@ SCHEDULER_QUEUE_TYPE = "FIFO"
 SCHEDULER_QUEUE_KEY = "%(spider)s:requests"
 SCHEDULER_QUEUE_CLASS = "scrapy_mongodb.queue.PriorityQueue"
 SCHEDULER_DUPEFILTER_KEY = "%(spider)s:dupefilter"
-SCHEDULER_DUPEFILTER_CLASS = 'scrapy_mongodb.dupefilter.RFPDupeFilter'
+SCHEDULER_DUPEFILTER_CLASS = "scrapy_mongodb.dupefilter.RFPDupeFilter"
 
 # Start urls
-START_URLS_KEY = '%(name)s:start_urls'
+START_URLS_KEY = "%(name)s:start_urls"
 
 # Stat
-STATS_KEY = '%(spider)s:stats'
+STATS_KEY = "%(spider)s:stats"
 
 # Debug
 MONGODB_DEBUG = False

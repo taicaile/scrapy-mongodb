@@ -1,12 +1,14 @@
-# -*- coding: utf-8 -*-
-# (c) Lhassan Baazzi <baazzilhassan@gmail.com>
+"""Scarpy MongoDB Scheduler"""
 
 from scrapy.utils.misc import load_object
 
 from . import connection, defaults
 
 
-class Scheduler(object):
+class Scheduler:
+    """Scarpy Scheduler"""
+
+    # pylint: disable=too-many-instance-attributes
     def __init__(
         self,
         server,

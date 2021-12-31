@@ -1,5 +1,4 @@
-# -*- coding: utf-8 -*-
-# (c) Lhassan Baazzi <baazzilhassan@gmail.com>
+"""create MongoClient"""
 
 from pymongo import MongoClient
 
@@ -7,6 +6,7 @@ from . import defaults
 
 
 def from_settings(settings):
+    """create MongoClient from settings"""
     host = settings.get("MONGODB_SERVER", defaults.MONGODB_SERVER)
     port = settings.get("MONGODB_PORT", defaults.MONGODB_PORT)
     client = MongoClient(f"mongodb://{host}:{port}")

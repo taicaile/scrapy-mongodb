@@ -1,5 +1,4 @@
-# -*- coding: utf-8 -*-
-# (c) Lhassan Baazzi <baazzilhassan@gmail.com>
+"""Scarpy MongoDB based Scheduler"""
 import logging
 import time
 
@@ -37,10 +36,13 @@ class RFPDupeFilter(BaseDupeFilter):
 
     @classmethod
     def from_crawler(cls, crawler):
+        """create cls from crawler"""
         return cls.from_settings(crawler.settings)
 
     @classmethod
     def from_spider(cls, spider):
+        """create cls from spider"""
+
         settings = spider.settings
         server = connection.from_settings(settings)
         db_name = settings.get("MONGODB_DB", defaults.MONGODB_DB)

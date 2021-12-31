@@ -1,5 +1,4 @@
-# -*- coding: utf-8 -*-
-# (c) Lhassan Baazzi <baazzilhassan@gmail.com>
+"""setup"""
 
 import io
 
@@ -7,6 +6,7 @@ from setuptools import setup
 
 
 def read_file(filename):
+    """read file content"""
     with io.open(filename, encoding="utf-8") as fp:
         return fp.read().strip()
 
@@ -28,6 +28,6 @@ setup(
     author="taicaile",
     url="https://github.com/taicaile/scrapy-mongodb",
     packages=["scrapy_mongodb"],
-    license="MIT",
+    # license="MIT",
     install_requires=read_requirements("requirements.txt"),
 )
