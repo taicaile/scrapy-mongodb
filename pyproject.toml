@@ -17,4 +17,4 @@ disable = "fixme"
 generated-members = 'numpy.*, torch.*'
 
 [tool.pylint.BASIC]
-good-names = ["i", "j", "k", "e", "_", "f", "fp"]
+good-names = ["i", "j", "k", "e", "_", "f", "fp", "db", "df"]

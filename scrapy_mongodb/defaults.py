@@ -6,6 +6,9 @@ MONGODB_PORT = 27017
 # Database
 MONGODB_DB = "scrapy"
 
+# For standalone use.
+DUPEFILTER_KEY = 'dupefilter:%(timestamp)s'
+
 # Scheduler
 SCHEDULER_PERSIST = False
 SCHEDULER_QUEUE_TYPE = "FIFO"

@@ -9,7 +9,7 @@ from scrapy.utils.reqser import request_from_dict, request_to_dict
 from . import astevaluate
 
 
-class Base(object):
+class Base:
     """Per-spider base queue class"""
 
     sort = None
@@ -93,8 +93,12 @@ class PriorityQueue(Base):
 
 
 class LifoQueue(Base):
+    """Last in first out"""
+
     sort = [("time", pymongo.DESCENDING)]
 
 
 class FifoQueue(Base):
+    """First in first out"""
+
     sort = [("time", pymongo.ASCENDING)]

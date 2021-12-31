@@ -13,7 +13,7 @@ SPIDER_MODULES = ["example.spiders"]
 NEWSPIDER_MODULE = "example.spiders"
 
 SCHEDULER = "scrapy_mongodb.scheduler.Scheduler"
-MONGODB_SERVER = "ubuntudev.lxc"
+MONGODB_SERVER = "localhost"
 MONGODB_PORT = 27017
 
 SCHEDULER_PERSIST = True

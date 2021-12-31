@@ -19,20 +19,18 @@ class RFPDupeFilter(BaseDupeFilter):
         self.collection = collection
         self.persist = persist
         self.debug = debug
-        self.logdupes = True
 
     @classmethod
     def from_settings(cls, settings):
         mongodb_db = settings.get("MONGODB_DB", defaults.MONGODB_DB)
-        dupefilter_key = settings.get(
-            "SCHEDULER_DUPEFILTER_KEY", defaults.SCHEDULER_DUPEFILTER_KEY
-        ) % {"timestamp": int(time.time())}
+        dupefilter_key = settings.get("DUPEFILTER_KEY", defaults.DUPEFILTER_KEY) % {
+            "timestamp": int(time.time())
+        }
 
         server = connection.from_settings(settings)
+
         collection = server[mongodb_db][dupefilter_key]
-        persist = settings.get(
-            "SCHEDULER_PERSIST", defaults.SCHEDULER_PERSIST
-        )
+        persist = settings.get("SCHEDULER_PERSIST", defaults.SCHEDULER_PERSIST)
         debug = settings.getbool("MONGODB_DEBUG", defaults.MONGODB_DEBUG)
 
         return cls(collection, persist, debug)
@@ -43,7 +41,17 @@ class RFPDupeFilter(BaseDupeFilter):
 
     @classmethod
     def from_spider(cls, spider):
-        return cls.from_settings(spider.settings)
+        settings = spider.settings
+        server = connection.from_settings(settings)
+        db_name = settings.get("MONGODB_DB", defaults.MONGODB_DB)
+        dupefilter_key = settings.get(
+            "SCHEDULER_DUPEFILTER_KEY", defaults.SCHEDULER_DUPEFILTER_KEY
+        ) % {"spider": spider.name}
+
+        collection = server[db_name][dupefilter_key]
+        persist = settings.get("SCHEDULER_PERSIST", defaults.SCHEDULER_PERSIST)
+        debug = settings.getbool("MONGODB_DEBUG", defaults.MONGODB_DEBUG)
+        return cls(collection, persist, debug)
 
     def request_seen(self, request):
         fingerprint = request_fingerprint(request)
