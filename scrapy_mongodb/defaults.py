@@ -13,7 +13,7 @@ DUPEFILTER_KEY = "dupefilter:%(timestamp)s"
 SCHEDULER_PERSIST = False
 SCHEDULER_QUEUE_TYPE = "FIFO"
 SCHEDULER_QUEUE_KEY = "%(spider)s:requests"
-SCHEDULER_QUEUE_CLASS = "scrapy_mongodb.queue.PriorityQueue"
+SCHEDULER_QUEUE_CLASS = "scrapy_mongodb.queue.FifoQueue"
 SCHEDULER_DUPEFILTER_KEY = "%(spider)s:dupefilter"
 SCHEDULER_DUPEFILTER_CLASS = "scrapy_mongodb.dupefilter.RFPDupeFilter"
 
