@@ -61,8 +61,8 @@ class RFPDupeFilter(BaseDupeFilter):
 
     def request_seen(self, request):
         fingerprint = request_fingerprint(request)
-        result = self.collection.find_one({"_id": fingerprint})
-        if not result:
+        result = self.collection.count_documents({"_id": fingerprint}, limit=1)
+        if result == 0:
             self.collection.insert_one({"_id": fingerprint})
             return False
 
