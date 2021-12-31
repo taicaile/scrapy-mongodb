@@ -13,6 +13,8 @@ From `pypi`
 
 ```bash
 pip install git+https://github.com/taicaile/scrapy-mongodb
+
+pip install --ignore-installed git+https://github.com/taicaile/scrapy-mongodb
 ```
 
 From `github`

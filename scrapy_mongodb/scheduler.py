@@ -1,5 +1,6 @@
 """Scarpy MongoDB Scheduler"""
 
+import pymongo
 from scrapy.utils.misc import load_object
 
 from . import connection, defaults
@@ -16,7 +17,7 @@ class Scheduler:
         persist,
         debug,
     ):
-        self.server = server
+        self.server: "pymongo.MongoClient" = server
         self.db_name = db_name
         self.persist = persist
         self.debug = debug

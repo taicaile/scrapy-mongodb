@@ -2,6 +2,7 @@
 import logging
 import time
 
+import pymongo.collection
 from scrapy.dupefilters import BaseDupeFilter
 from scrapy.utils.request import request_fingerprint
 
@@ -13,13 +14,17 @@ logger = logging.getLogger()
 class RFPDupeFilter(BaseDupeFilter):
     """Mongodb-based request duplication filter"""
 
-    def __init__(self, collection, persist, debug):
+    def __init__(self, collection: "pymongo.collection.Collection", persist, debug):
         """Initialize the duplicates filter."""
         self.collection = collection
         self.persist = persist
         self.debug = debug
         self.stats = None
         self.spider = None
+        self.create_index()
+
+    def create_index(self):
+        self.collection.create_index("fp")
 
     @classmethod
     def from_settings(cls, settings):
@@ -61,9 +66,9 @@ class RFPDupeFilter(BaseDupeFilter):
 
     def request_seen(self, request):
         fingerprint = request_fingerprint(request)
-        result = self.collection.count_documents({"_id": fingerprint}, limit=1)
+        result = self.collection.count_documents({"fp": fingerprint}, limit=1)
         if result == 0:
-            self.collection.insert_one({"_id": fingerprint})
+            self.collection.insert_one({"fp": fingerprint})
             return False
 
         if self.stats and self.spider:

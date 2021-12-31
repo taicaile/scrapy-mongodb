@@ -1,4 +1,6 @@
 """queue implemented based on mongodb"""
+import datetime
+
 import pymongo
 import pymongo.collection
 import scrapy  # pylint: disable=unused-import
@@ -43,6 +45,12 @@ class Base:
         if size > 0:
             spider.log(f"Resuming crawl ({size} requests scheduled)")
 
+        self.create_index()
+
+    def create_index(self):
+        if self.sort:
+            self.collection.create_index(self.sort)
+
     def _encode_request(self, request):
         """Encode a request object"""
         obj = request_to_dict(request, self.spider)
@@ -60,7 +68,11 @@ class Base:
     def push(self, request):
         """Push a request"""
         self.collection.insert_one(
-            {"priority": request.priority, "data": self._encode_request(request)}
+            {
+                "p": request.priority,
+                "req": self._encode_request(request),
+                "t": datetime.datetime.now(),
+            }
         )
 
     def pop(self, timeout=0):
@@ -71,7 +83,7 @@ class Base:
         del timeout
         entry = self.collection.find_one_and_delete({}, sort=self.sort)
         if entry:
-            request = self._decode_request(entry["data"])
+            request = self._decode_request(entry["req"])
             return request
 
         return None
@@ -84,18 +96,19 @@ class Base:
 class PriorityQueue(Base):
     """Per-spider priority queue abstraction using redis' sorted set"""
 
-    sort = [("priority", pymongo.DESCENDING), ("_id", pymongo.ASCENDING)]
+    sort = [("p", pymongo.DESCENDING), ("t", pymongo.ASCENDING)]
+
+    def create_index(self):
+        self.collection.create_index(self.sort)
 
 
 class LifoQueue(Base):
     """Last in first out"""
 
-    # sort = [("_id", pymongo.DESCENDING)]
-    sort = None
+    sort = [("t", pymongo.DESCENDING)]
 
 
 class FifoQueue(Base):
     """First in first out"""
 
-    # sort = [("_id", pymongo.ASCENDING)]
-    sort = None
+    sort = [("t", pymongo.ASCENDING)]
