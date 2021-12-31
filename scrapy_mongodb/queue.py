@@ -90,10 +90,12 @@ class PriorityQueue(Base):
 class LifoQueue(Base):
     """Last in first out"""
 
-    sort = [("_id", pymongo.DESCENDING)]
+    # sort = [("_id", pymongo.DESCENDING)]
+    sort = None
 
 
 class FifoQueue(Base):
     """First in first out"""
 
-    sort = [("_id", pymongo.ASCENDING)]
+    # sort = [("_id", pymongo.ASCENDING)]
+    sort = None
