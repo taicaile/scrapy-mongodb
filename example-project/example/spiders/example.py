@@ -1,8 +1,14 @@
+"""a example to use scarpy-mongodb"""
+import datetime
+
 import scrapy
+from example.items import ExampleItem
 from scrapy.linkextractors import LinkExtractor
 
 
 class ExampleSpider(scrapy.Spider):
+    """example spider"""
+
     name = "example"
     allowed_domains = ["quotes.toscrape.com"]
 
@@ -19,5 +25,8 @@ class ExampleSpider(scrapy.Spider):
             yield scrapy.Request(url=url, callback=self.parse)
 
     def parse(self, response, **kwargs):
+
+        yield ExampleItem(url=response.url, date=datetime.datetime.now())
+
         for link in self.link_extractor.extract_links(response):
             yield scrapy.Request(link.url, callback=self.parse)

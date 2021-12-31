@@ -17,6 +17,9 @@ SCHEDULER_QUEUE_CLASS = "scrapy_mongodb.queue.PriorityQueue"
 SCHEDULER_DUPEFILTER_KEY = "%(spider)s:dupefilter"
 SCHEDULER_DUPEFILTER_CLASS = "scrapy_mongodb.dupefilter.RFPDupeFilter"
 
+# Items Pipeline
+PIPELINE_KEY = "%(spider)s:items"
+
 # Start urls
 START_URLS_KEY = "%(name)s:start_urls"
 
