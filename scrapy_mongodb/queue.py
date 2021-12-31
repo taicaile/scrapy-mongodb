@@ -1,9 +1,7 @@
 """queue implemented based on mongodb"""
-import datetime
-
 import pymongo
 import pymongo.collection
-import scrapy
+import scrapy  # pylint: disable=unused-import
 from scrapy.utils.reqser import request_from_dict, request_to_dict
 
 from . import astevaluate
@@ -21,20 +19,21 @@ class Base:
         key: str,
         serializer=None,
     ):
+        """Initialize per-spider mongodb queue."""
+
         if serializer is None:
             # Backward compatibility.
             # TODO: deprecate pickle.
             serializer = astevaluate
         if not hasattr(serializer, "loads"):
             raise TypeError(
-                "serializer does not implement 'loads' function: %r" % serializer
+                f"serializer does not implement 'loads' function: {serializer}"
             )
         if not hasattr(serializer, "dumps"):
             raise TypeError(
-                "serializer '%s' does not implement 'dumps' function: %r" % serializer
+                f"serializer does not implement 'dumps' function: {serializer}"
             )
 
-        """Initialize per-spider mongodb queue."""
         self.collection = collection
         self.spider = spider
         self.key = key % {"spider": spider.name}
@@ -42,7 +41,7 @@ class Base:
         # notice if there are requests already in the queue
         size = self.__len__()
         if size > 0:
-            spider.log("Resuming crawl (%d requests scheduled)" % size)
+            spider.log(f"Resuming crawl ({size} requests scheduled)")
 
     def _encode_request(self, request):
         """Encode a request object"""
@@ -61,11 +60,7 @@ class Base:
     def push(self, request):
         """Push a request"""
         self.collection.insert_one(
-            {
-                "priority": request.priority,
-                "data": self._encode_request(request),
-                "time": datetime.datetime.utcnow(),
-            }
+            {"priority": request.priority, "data": self._encode_request(request)}
         )
 
     def pop(self, timeout=0):
@@ -89,16 +84,16 @@ class Base:
 class PriorityQueue(Base):
     """Per-spider priority queue abstraction using redis' sorted set"""
 
-    sort = [("priority", pymongo.DESCENDING), ("time", pymongo.ASCENDING)]
+    sort = [("priority", pymongo.DESCENDING), ("_id", pymongo.ASCENDING)]
 
 
 class LifoQueue(Base):
     """Last in first out"""
 
-    sort = [("time", pymongo.DESCENDING)]
+    sort = [("_id", pymongo.DESCENDING)]
 
 
 class FifoQueue(Base):
     """First in first out"""
 
-    sort = [("time", pymongo.ASCENDING)]
+    sort = [("_id", pymongo.ASCENDING)]

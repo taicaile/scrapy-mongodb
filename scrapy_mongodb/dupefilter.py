@@ -18,6 +18,8 @@ class RFPDupeFilter(BaseDupeFilter):
         self.collection = collection
         self.persist = persist
         self.debug = debug
+        self.stats = None
+        self.spider = None
 
     @classmethod
     def from_settings(cls, settings):
@@ -53,7 +55,9 @@ class RFPDupeFilter(BaseDupeFilter):
         collection = server[db_name][dupefilter_key]
         persist = settings.get("SCHEDULER_PERSIST", defaults.SCHEDULER_PERSIST)
         debug = settings.getbool("MONGODB_DEBUG", defaults.MONGODB_DEBUG)
-        return cls(collection, persist, debug)
+        df = cls(collection, persist, debug)
+        df.spider = spider
+        return df
 
     def request_seen(self, request):
         fingerprint = request_fingerprint(request)
@@ -61,6 +65,9 @@ class RFPDupeFilter(BaseDupeFilter):
         if not result:
             self.collection.insert_one({"_id": fingerprint})
             return False
+
+        if self.stats and self.spider:
+            self.stats.inc_value("scheduler/dupefilter/mongodb", spider=self.spider)
 
         return True
 

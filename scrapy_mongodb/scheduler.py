@@ -66,6 +66,8 @@ class Scheduler:
             ) from e
 
         self.df = load_object(self.dupefilter_cls).from_spider(spider)
+        if self.stats:
+            self.df.stats = self.stats
 
     def close(self, reason):
         """spider close"""
