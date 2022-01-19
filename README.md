@@ -9,7 +9,9 @@ MongoDB-based components for Scrapy that allows distributed crawling
 
 ## Installation
 
-From `pypi`
+From `github`
+
+To install it via `pip`,
 
 ```bash
 pip install git+https://github.com/taicaile/scrapy-mongodb
@@ -17,12 +19,19 @@ pip install git+https://github.com/taicaile/scrapy-mongodb
 pip install --ignore-installed git+https://github.com/taicaile/scrapy-mongodb
 ```
 
-From `github`
+or clone it first,
 
 ```bash
 git clone https://github.com/taicaile/scrapy-mongodb.git
 cd scrapy-mongodb
 python setup.py install
+```
+
+To install specific version,
+
+```bash
+# replace the version `v0.1.0` as you expect,
+pip install git+https://github.com/taicaile/python-settings@v0.1.0
 ```
 
 ## Usage
