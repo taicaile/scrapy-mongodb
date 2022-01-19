@@ -31,7 +31,7 @@ To install specific version,
 
 ```bash
 # replace the version `v0.1.0` as you expect,
-pip install git+https://github.com/taicaile/python-settings@v0.1.0
+pip install git+https://github.com/taicaile/scrapy-mongodb@v0.1.0
 ```
 
 ## Usage
