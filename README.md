@@ -55,4 +55,11 @@ MONGODB_PORT = 27017
 MONGODB_DB = "scrapy"
 ```
 
+persist,
+
+```python
+MONGODB_DUPEFILTER_PERSIST = False # by default
+MONGODB_SCHEDULER_QUEUE_PERSIST = False # By default
+```
+
 Note this is not suitable for distribution currently.
