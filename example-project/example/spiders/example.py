@@ -22,7 +22,7 @@ class ExampleSpider(scrapy.Spider):
             "http://quotes.toscrape.com/page/2/",
         ]
         for url in urls:
-            yield scrapy.Request(url=url, callback=self.parse)
+            yield scrapy.Request(url=url, callback=self.parse, dont_filter=True)
 
     def parse(self, response, **kwargs):
 

@@ -14,7 +14,7 @@ NEWSPIDER_MODULE = "example.spiders"
 
 SCHEDULER = "scrapy_mongodb.scheduler.Scheduler"
 
-SCHEDULER_PERSIST = True
+MONGODB_SCHEDULER_QUEUE_PERSIST = True
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 # USER_AGENT = 'example (+http://www.yourdomain.com)'
 

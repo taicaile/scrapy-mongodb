@@ -22,7 +22,7 @@ def read_requirements(filename):
 
 setup(
     name="scrapy-mongodb",
-    version="0.1.0",
+    version="0.2.0",
     description="MongoDB-based components for Scrapy",
     long_description=read_file("README.md"),
     author="taicaile",

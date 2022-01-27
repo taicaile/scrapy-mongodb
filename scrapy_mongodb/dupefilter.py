@@ -24,19 +24,22 @@ class RFPDupeFilter(BaseDupeFilter):
         self.create_index()
 
     def create_index(self):
+        """create index for collection"""
         self.collection.create_index("fp")
 
     @classmethod
     def from_settings(cls, settings):
         mongodb_db = settings.get("MONGODB_DB", defaults.MONGODB_DB)
-        dupefilter_key = settings.get("DUPEFILTER_KEY", defaults.DUPEFILTER_KEY) % {
-            "timestamp": int(time.time())
-        }
+        dupefilter_key = settings.get(
+            "MONGODB_DUPEFILTER_KEY", defaults.MONGODB_DUPEFILTER_KEY
+        ) % {"timestamp": int(time.time())}
 
         server = connection.from_settings(settings)
 
         collection = server[mongodb_db][dupefilter_key]
-        persist = settings.get("SCHEDULER_PERSIST", defaults.SCHEDULER_PERSIST)
+        persist = settings.get(
+            "MONGODB_DUPEFILTER_PERSIST", defaults.MONGODB_DUPEFILTER_PERSIST
+        )
         debug = settings.getbool("MONGODB_DEBUG", defaults.MONGODB_DEBUG)
 
         return cls(collection, persist, debug)
@@ -54,11 +57,14 @@ class RFPDupeFilter(BaseDupeFilter):
         server = connection.from_settings(settings)
         db_name = settings.get("MONGODB_DB", defaults.MONGODB_DB)
         dupefilter_key = settings.get(
-            "SCHEDULER_DUPEFILTER_KEY", defaults.SCHEDULER_DUPEFILTER_KEY
+            "MONGODB_SCHEDULER_DUPEFILTER_KEY",
+            defaults.MONGODB_SCHEDULER_DUPEFILTER_KEY,
         ) % {"spider": spider.name}
 
         collection = server[db_name][dupefilter_key]
-        persist = settings.get("SCHEDULER_PERSIST", defaults.SCHEDULER_PERSIST)
+        persist = settings.get(
+            "MONGODB_DUPEFILTER_PERSIST", defaults.MONGODB_DUPEFILTER_PERSIST
+        )
         debug = settings.getbool("MONGODB_DEBUG", defaults.MONGODB_DEBUG)
         df = cls(collection, persist, debug)
         df.spider = spider
@@ -81,5 +87,5 @@ class RFPDupeFilter(BaseDupeFilter):
             self.clear()
 
     def clear(self):
-        """Clears fingerprints data"""
+        """Clear fingerprints data"""
         self.collection.drop()

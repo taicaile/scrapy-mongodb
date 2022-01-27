@@ -7,24 +7,25 @@ MONGODB_PORT = 27017
 MONGODB_DB = "scrapy"
 
 # For standalone use.
-DUPEFILTER_KEY = "dupefilter:%(timestamp)s"
+MONGODB_DUPEFILTER_KEY = "dupefilter:%(timestamp)s"
 
+# Duplifiter
+MONGODB_DUPEFILTER_PERSIST = False
 # Scheduler
-SCHEDULER_PERSIST = False
-SCHEDULER_QUEUE_TYPE = "FIFO"
-SCHEDULER_QUEUE_KEY = "%(spider)s:requests"
-SCHEDULER_QUEUE_CLASS = "scrapy_mongodb.queue.FifoQueue"
-SCHEDULER_DUPEFILTER_KEY = "%(spider)s:dupefilter"
-SCHEDULER_DUPEFILTER_CLASS = "scrapy_mongodb.dupefilter.RFPDupeFilter"
+MONGODB_SCHEDULER_QUEUE_PERSIST = False
+MONGODB_SCHEDULER_QUEUE_KEY = "%(spider)s:requests"
+MONGODB_SCHEDULER_QUEUE_CLASS = "scrapy_mongodb.queue.FifoQueue"
+MONGODB_SCHEDULER_DUPEFILTER_KEY = "%(spider)s:dupefilter"
+MONGODB_SCHEDULER_DUPEFILTER_CLASS = "scrapy_mongodb.dupefilter.RFPDupeFilter"
 
 # Items Pipeline
-PIPELINE_KEY = "%(spider)s:items:%(item)s"
+MONGODB_PIPELINE_KEY = "%(spider)s:items:%(item)s"
 
 # Start urls
-START_URLS_KEY = "%(name)s:start_urls"
+MONGODB_START_URLS_KEY = "%(name)s:start_urls"
 
 # Stat
-STATS_KEY = "%(spider)s:stats"
+MONGODB_STATS_KEY = "%(spider)s:stats"
 
 # Debug
 MONGODB_DEBUG = False

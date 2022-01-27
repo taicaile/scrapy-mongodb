@@ -20,7 +20,9 @@ class MongoDBPipeline:
         params = {
             "server": connection.from_settings(settings),
             "db_name": settings.get("MONGODB_DB", defaults.MONGODB_DB),
-            "key": settings.get("MONGODB_ITEMS_PIPELINE_KEY", defaults.PIPELINE_KEY),
+            "key": settings.get(
+                "MONGODB_ITEMS_PIPELINE_KEY", defaults.MONGODB_PIPELINE_KEY
+            ),
         }
 
         if settings.get("REDIS_ITEMS_SERIALIZER"):

@@ -21,10 +21,10 @@ class Scheduler:
         self.db_name = db_name
         self.persist = persist
         self.debug = debug
-        self.queue_key = defaults.SCHEDULER_QUEUE_KEY
-        self.queue_cls = defaults.SCHEDULER_QUEUE_CLASS
-        self.dupefilter_key = defaults.SCHEDULER_DUPEFILTER_KEY
-        self.dupefilter_cls = defaults.SCHEDULER_DUPEFILTER_CLASS
+        self.queue_key = defaults.MONGODB_SCHEDULER_QUEUE_KEY
+        self.queue_cls = defaults.MONGODB_SCHEDULER_QUEUE_CLASS
+        self.dupefilter_key = defaults.MONGODB_SCHEDULER_DUPEFILTER_KEY
+        self.dupefilter_cls = defaults.MONGODB_SCHEDULER_DUPEFILTER_CLASS
 
         # for open
         self.spider = None
@@ -37,7 +37,9 @@ class Scheduler:
         """create cls from settings"""
         server = connection.from_settings(settings)
         db_name = settings.get("MONGODB_DB", defaults.MONGODB_DB)
-        persist = settings.get("SCHEDULER_PERSIST", defaults.SCHEDULER_PERSIST)
+        persist = settings.get(
+            "MONGODB_SCHEDULER_QUEUE_PERSIST", defaults.MONGODB_SCHEDULER_QUEUE_PERSIST
+        )
         debug = settings.getbool("MONGODB_DEBUG", defaults.MONGODB_DEBUG)
 
         return cls(server, db_name, persist, debug)
@@ -72,9 +74,8 @@ class Scheduler:
 
     def close(self, reason):
         """spider close"""
-        del reason
+        self.df.close(reason)
         if not self.persist:
-            self.df.clear()
             self.queue.clear()
 
     def enqueue_request(self, request):
